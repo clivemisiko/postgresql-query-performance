@@ -4,7 +4,7 @@ from library.models import Book
 
 
 def book_list(request):
-    books = Book.objects.all()
+    books = Book.objects.select_related("author").all()
     lines = "".join(
         f"<p>{book.title} by {book.author.name}</p>" for book in books
     )
