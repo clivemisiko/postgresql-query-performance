@@ -12,17 +12,20 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         fake = Faker()
 
+        Book.objects.all().delete()
+        Author.objects.all().delete()
+
         authors = [
             Author.objects.create(name=fake.name(), email=fake.unique.email())
             for _ in range(50)
         ]
         self.stdout.write(f"Created {len(authors)} authors.")
 
-        for _ in range(1000):
+        for _ in range(50000):
             Book.objects.create(
                 title=fake.sentence(nb_words=4),
                 isbn=fake.unique.isbn13(separator=""),
                 author=random.choice(authors),
                 published_date=fake.date_between(start_date="-30y", end_date="today"),
             )
-        self.stdout.write("Created 1000 books.")
+        self.stdout.write("Created 50000 books.")

@@ -19,5 +19,10 @@ class Book(models.Model):
     )
     published_date = models.DateField()
 
+    class Meta:
+        indexes = [
+            models.Index(fields=["published_date"], name="book_pubdate_idx"),
+        ]
+
     def __str__(self) -> str:
         return self.title
